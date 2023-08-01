@@ -11,6 +11,6 @@ INSERT INTO `smpp_user`
     `callback_url`, `simulate`, `simulate_deliver_every`, `simulate_permanent_failure_every`, `simulate_temporary_failure_every`, 
     `simulate_mo_every`, `max_binds`) 
 VALUES 
-    ('smppuserA',PASSWORD('userA'),11.00000,'ksmppd2',0,1,0,NULL,0,0,0,0,0,0),
-    ('smppuserB',PASSWORD('userB'),0.00000,NULL,0,0,0,NULL,1,1,0,0,0,2),
-    ('smppuserC',PASSWORD('userC'),0.00000,NULL,0,0,0,NULL,1,1,0,0,2,0);
+    ('smppuserA',MD5('userA'),11.00000,'ksmppd2',0,1,0,NULL,0,0,0,0,0,0),
+    ('smppuserB',MD5('userB'),0.00000,NULL,0,0,0,NULL,1,1,0,0,0,2),
+    ('smppuserC',MD5('userC'),0.00000,NULL,0,0,0,NULL,1,1,0,0,2,0);
