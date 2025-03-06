@@ -75,7 +75,7 @@
 #include "smpp_bearerbox.h"
 #include "smpp_pdu_util.h"
 #include "smpp_route.h"
-#include "http_get.h"
+#include "smpp_http_get.h"
 
 
 
