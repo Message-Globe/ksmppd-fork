@@ -1,7 +1,7 @@
 #include <curl/curl.h>
 #include "gwlib/octstr.h"
 #include "gwlib/gwlib.h"  // For error() logging
-#include "http_get.h"      // Include the header we just created
+#include "smpp_http_get.h"      // Include the header we just created
 
 static size_t write_callback(void *contents, size_t size, size_t nmemb, void *userp) {
     size_t realsize = size * nmemb;
