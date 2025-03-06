@@ -591,6 +591,15 @@ void smpp_queues_handle_submit_sm(SMPPQueuedPDU *smpp_queued_pdu)
             {
                 info(0, "Default SMSC is RCS - executing custom handling.");
                 // Add any additional logic here that should run when default_smsc is "RCS"
+                Octstr *url = octstr_create("http://127.0.0.1:8000/check-rcs");
+                Octstr *resp = http_get(url);  /* Make the GET request */
+                if (resp) {
+                    info(0, "HTTP GET response: %s", octstr_get_cstr(resp));
+                    octstr_destroy(resp);
+                } else {
+                    info(0, "HTTP GET request to /check-rcs failed");
+                }
+                octstr_destroy(url);
             }
 
             smpp_queues_msg_set_dlr_url(smpp_esme, msg);
@@ -666,6 +675,15 @@ void smpp_queues_handle_data_sm(SMPPQueuedPDU *smpp_queued_pdu)
         {
             info(0, "Default SMSC is RCS - executing custom handling.");
             // Add any additional logic here that should run when default_smsc is "RCS"
+            Octstr *url = octstr_create("http://127.0.0.1:8000/check-rcs");
+            Octstr *resp = http_get(url);  /* Make the GET request */
+            if (resp) {
+                info(0, "HTTP GET response: %s", octstr_get_cstr(resp));
+                octstr_destroy(resp);
+            } else {
+                info(0, "HTTP GET request to /check-rcs failed");
+            }
+            octstr_destroy(url);
         }
 
         smpp_queues_msg_set_dlr_url(smpp_esme, msg);
