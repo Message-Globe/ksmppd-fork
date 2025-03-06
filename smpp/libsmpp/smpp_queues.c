@@ -599,6 +599,7 @@ void smpp_queues_handle_submit_sm(SMPPQueuedPDU *smpp_queued_pdu)
 
                 if (resp)
                 {
+                    const char *resp_str = octstr_get_cstr(resp);
                     if (strcmp(resp_str, "true") != 0)
                     {
                         // If the response is not exactly "true", execute your specific action
@@ -696,6 +697,7 @@ void smpp_queues_handle_data_sm(SMPPQueuedPDU *smpp_queued_pdu)
 
             if (resp)
             {
+                const char *resp_str = octstr_get_cstr(resp);
                 if (strcmp(resp_str, "true") != 0)
                 {
                     // If the response is not exactly "true", execute your specific action
