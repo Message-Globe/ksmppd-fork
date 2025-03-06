@@ -590,22 +590,30 @@ void smpp_queues_handle_submit_sm(SMPPQueuedPDU *smpp_queued_pdu)
 
             if (octstr_compare(smpp_esme->default_smsc, octstr_imm("RCS")) == 0)
             {
-                info(0, "Default SMSC is RCS - executing custom handling.");
                 // Add any additional logic here that should run when default_smsc is "RCS"
                 Octstr *url = octstr_format("http://127.0.0.1:8000/check-rcs?sender=%s&number=%s",
                                             octstr_get_cstr(msg->sms.sender),
                                             octstr_get_cstr(msg->sms.receiver));
-                Octstr *resp = http_get(url); /* Make the GET request */
+                Octstr *resp = http_get(url);
+                octstr_destroy(resp);
+
                 if (resp)
                 {
-                    info(0, "HTTP GET response: %s", octstr_get_cstr(resp));
+                    if (strcmp(resp_str, "true") != 0)
+                    {
+                        // If the response is not exactly "true", execute your specific action
+                        info(0, "%s is not RCS enabled, fallback to RDCOM", octstr_get_cstr(msg->sms.receiver));
+                        octstr_destroy(msg->sms.smsc_id);
+                        msg->sms.smsc_id = octstr_create("RDCOM-HQ");
+                    }
                     octstr_destroy(resp);
                 }
                 else
                 {
-                    info(0, "HTTP GET request to /check-rcs failed");
+                    info(0, "%s HTTP GET request to /check-rcs failed", octstr_get_cstr(msg->sms.receiver));
+                    octstr_destroy(msg->sms.smsc_id);
+                    msg->sms.smsc_id = octstr_create("RDCOM-HQ");
                 }
-                octstr_destroy(url);
             }
 
             smpp_queues_msg_set_dlr_url(smpp_esme, msg);
@@ -679,22 +687,30 @@ void smpp_queues_handle_data_sm(SMPPQueuedPDU *smpp_queued_pdu)
 
         if (octstr_compare(smpp_esme->default_smsc, octstr_imm("RCS")) == 0)
         {
-            info(0, "Default SMSC is RCS - executing custom handling.");
             // Add any additional logic here that should run when default_smsc is "RCS"
             Octstr *url = octstr_format("http://127.0.0.1:8000/check-rcs?sender=%s&number=%s",
                                         octstr_get_cstr(msg->sms.sender),
                                         octstr_get_cstr(msg->sms.receiver));
-            Octstr *resp = http_get(url); /* Make the GET request */
+            Octstr *resp = http_get(url);
+            octstr_destroy(resp);
+
             if (resp)
             {
-                info(0, "HTTP GET response: %s", octstr_get_cstr(resp));
+                if (strcmp(resp_str, "true") != 0)
+                {
+                    // If the response is not exactly "true", execute your specific action
+                    info(0, "%s is not RCS enabled, fallback to RDCOM", octstr_get_cstr(msg->sms.receiver));
+                    octstr_destroy(msg->sms.smsc_id);
+                    msg->sms.smsc_id = octstr_create("RDCOM-HQ");
+                }
                 octstr_destroy(resp);
             }
             else
             {
-                info(0, "HTTP GET request to /check-rcs failed");
+                info(0, "%s HTTP GET request to /check-rcs failed", octstr_get_cstr(msg->sms.receiver));
+                octstr_destroy(msg->sms.smsc_id);
+                msg->sms.smsc_id = octstr_create("RDCOM-HQ");
             }
-            octstr_destroy(url);
         }
 
         smpp_queues_msg_set_dlr_url(smpp_esme, msg);
