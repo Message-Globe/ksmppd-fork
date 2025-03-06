@@ -595,9 +595,9 @@ void smpp_queues_handle_submit_sm(SMPPQueuedPDU *smpp_queued_pdu)
                                             octstr_get_cstr(msg->sms.sender),
                                             octstr_get_cstr(msg->sms.receiver));
                 Octstr *resp = http_get(url);
-                octstr_destroy(resp);
+                octstr_destroy(url)
 
-                if (resp)
+                    if (resp)
                 {
                     const char *resp_str = octstr_get_cstr(resp);
                     if (strcmp(resp_str, "true") != 0)
@@ -693,9 +693,9 @@ void smpp_queues_handle_data_sm(SMPPQueuedPDU *smpp_queued_pdu)
                                         octstr_get_cstr(msg->sms.sender),
                                         octstr_get_cstr(msg->sms.receiver));
             Octstr *resp = http_get(url);
-            octstr_destroy(resp);
+            octstr_destroy(url)
 
-            if (resp)
+                if (resp)
             {
                 const char *resp_str = octstr_get_cstr(resp);
                 if (strcmp(resp_str, "true") != 0)
