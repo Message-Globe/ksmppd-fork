@@ -75,6 +75,9 @@
 #include "smpp_bearerbox.h"
 #include "smpp_pdu_util.h"
 #include "smpp_route.h"
+#include "gw/http.h"
+
+
 
 int smpp_queues_add_outbound(SMPPQueuedPDU *smpp_queued_pdu)
 {
